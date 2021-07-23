@@ -1,0 +1,7 @@
+services:
+  GroupRepository:
+    class: ../Group/infrastructure/TestGroupRepository
+
+  GroupCreate:
+    class: '../Group/application/GroupCreate'
+    arguments: ['@GroupRepository']

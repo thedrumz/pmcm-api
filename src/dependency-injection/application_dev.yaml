@@ -1,0 +1,7 @@
+services:
+  GroupRepository:
+    class: ../Group/infrastructure/PostgresGroupRepository
+
+  GroupCreate:
+    class: '../Group/application/GroupCreate'
+    arguments: ['@GroupRepository']
