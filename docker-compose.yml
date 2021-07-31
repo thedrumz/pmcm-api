@@ -4,7 +4,7 @@ services:
     build:
       context: .
     env_file: ./.env
-    command: npm run dev
+    command: bash -c "yarn migrate:docker && yarn dev"
     volumes: 
       - .:/app/
       - /app/node_modules
@@ -16,17 +16,17 @@ services:
       MYSQL_HOST: pmcm-db
 
   pmcm-db:
-    image: mysql:8.0
+    image: postgres:13
     env_file: ./.env
     environment: 
-      MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD
-      MYSQL_DATABASE: $MYSQL_DATABASE
+      POSTGRES_USER: $DB_USER
+      POSTGRES_PASSWORD: $DB_PASSWORD
     ports:
-      - $MYSQL_LOCAL_PORT:$MYSQL_DOCKER_PORT
-    volumes:
-      - mysql:/var/lib/mysql
-      - mysql_config:/etc/mysql
+      - $DB_LOCAL_PORT:$DB_DOCKER_PORT
+    # volumes:
+    #   - mysql:/var/lib/mysql
+    #   - mysql_config:/etc/mysql
 
-volumes:
-  mysql:
-  mysql_config:
+# volumes:
+#   mysql:
+#   mysql_config:

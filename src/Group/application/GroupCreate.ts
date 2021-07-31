@@ -1,3 +1,4 @@
+import PersistenceError from '../../Shared/domain/exceptions/PersistenceError'
 import Group, { GroupPrimitives } from '../domain/Group'
 import { GroupRepository } from '../domain/GroupRepository'
 
@@ -8,10 +9,14 @@ class GroupCreate {
     this._groupRepository = groupRepository
   }
 
-  public run = (group: GroupPrimitives): GroupPrimitives => {
+  public run = async (group: GroupPrimitives): Promise<GroupPrimitives> => {
     const groupToSave = Group.fromPrimitives(group)
-    const result = this._groupRepository.save(groupToSave)
-    return result.toPrimitives()
+    try {
+      await this._groupRepository.save(groupToSave)
+    } catch (error) {
+      throw new PersistenceError('Database error, group not created')
+    }
+    return groupToSave.toPrimitives()
   }
 }
 

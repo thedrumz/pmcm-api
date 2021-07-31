@@ -5,6 +5,8 @@
   "main": "index.js",
   "dependencies": {
     "express": "^4.17.1",
+    "knex": "^0.95.7",
+    "pg": "^8.6.0",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
@@ -33,7 +35,11 @@
   "scripts": {
     "test": "NODE_ENV=test jest --watch",
     "dev": "NODE_ENV=dev nodemon src/server.ts",
-    "lint": "eslint '*/**/*.{js,ts,tsx}' --quiet"
+    "lint": "eslint '*/**/*.{js,ts,tsx}' --quiet",
+    "migrate:docker": "npx knex migrate:latest --knexfile=./src/knex/knexfile.js --env dev",
+    "seed:docker": "npx knex seed:run --knexfile=./src/knex/knexfile.js --env dev",
+    "migrate:local": "npx knex migrate:latest --knexfile=./src/knex/knexfile.js --env local",
+    "seed:local": "npx knex seed:run --knexfile=./src/knex/knexfile.js --env local"
   },
   "author": "Max Gómez",
   "license": "ISC"

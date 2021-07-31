@@ -27,6 +27,10 @@ class Group {
     return this._groupId.value()
   }
 
+  public style(): string {
+    return this._style.value()
+  }
+
   public static fromPrimitives(plainData: GroupPrimitives): Group {
     return new Group(new GroupId(), new GroupName(plainData.groupName), new GroupStyle(plainData.style))
   }

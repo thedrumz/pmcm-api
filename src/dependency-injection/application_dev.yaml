@@ -3,5 +3,5 @@ services:
     class: ../Group/infrastructure/PostgresGroupRepository
 
   GroupCreate:
-    class: '../Group/application/GroupCreate'
+    class: ../Group/application/GroupCreate
     arguments: ['@GroupRepository']

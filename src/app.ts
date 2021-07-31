@@ -1,4 +1,4 @@
-import express, { Application, Response, NextFunction } from 'express'
+import express, { Application, Response, NextFunction, RequestHandler } from 'express'
 import NDIMiddleware from 'node-dependency-injection-express-middleware'
 import path from 'path'
 import RequestWithDIContainer from './express/RequestWithDIContainer'
@@ -8,7 +8,7 @@ import ErrorMiddleware from './Group/infrastructure/middleware/ErrorMiddleware'
 const app: Application = express()
 
 // parse application/json
-app.use(express.json())
+app.use(express.json() as RequestHandler)
 
 // Dependency injection
 const options = {
@@ -23,11 +23,11 @@ app.get('/', (req: RequestWithDIContainer, res: Response) => {
   res.send('Hello world')
 })
 
-app.post('/group', (req: RequestWithDIContainer, res: Response, next: NextFunction) => {
+app.post('/group', async (req: RequestWithDIContainer, res: Response, next: NextFunction) => {
   const groupCreate: GroupCreate = req.container.get('GroupCreate')
 
   try {
-    const group = groupCreate.run({ ...req.body })
+    const group = await groupCreate.run({ ...req.body })
     res.send(group)
   } catch (error) {
     // Pass error to middleware
