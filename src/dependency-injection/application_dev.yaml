@@ -1,7 +1,9 @@
 services:
   GroupRepository:
     class: ../Group/infrastructure/PostgresGroupRepository
+  FileRepository:
+    class: ../File/infrastructure/AwsRepository
 
   GroupCreate:
     class: ../Group/application/GroupCreate
-    arguments: ['@GroupRepository']
+    arguments: ['@GroupRepository', '@FileRepository']

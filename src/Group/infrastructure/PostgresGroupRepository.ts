@@ -8,6 +8,7 @@ class PostgresGroupRepository implements GroupRepository {
       id: group.groupId(),
       group_name: group.groupName(),
       style: group.style(),
+      image: group.image(),
     })
   }
 }

@@ -1,7 +1,9 @@
 services:
   GroupRepository:
     class: ../Group/infrastructure/TestGroupRepository
+  FileRepository:
+    class: ../File/infrastructure/TestFileRepository
 
   GroupCreate:
     class: ../Group/application/GroupCreate
-    arguments: ['@GroupRepository']
+    arguments: ['@GroupRepository', '@FileRepository']

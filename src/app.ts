@@ -1,5 +1,6 @@
 import express, { Application, Response, NextFunction, RequestHandler } from 'express'
 import NDIMiddleware from 'node-dependency-injection-express-middleware'
+import FileUpload from 'express-fileupload'
 import path from 'path'
 import RequestWithDIContainer from './express/RequestWithDIContainer'
 import GroupCreate from './Group/application/GroupCreate'
@@ -9,6 +10,9 @@ const app: Application = express()
 
 // parse application/json
 app.use(express.json() as RequestHandler)
+
+// file uploads
+app.use(FileUpload())
 
 // Dependency injection
 const options = {
@@ -27,7 +31,7 @@ app.post('/group', async (req: RequestWithDIContainer, res: Response, next: Next
   const groupCreate: GroupCreate = req.container.get('GroupCreate')
 
   try {
-    const group = await groupCreate.run({ ...req.body })
+    const group = await groupCreate.run({ group: req.body, files: req.files as { image } })
     res.send(group)
   } catch (error) {
     // Pass error to middleware
